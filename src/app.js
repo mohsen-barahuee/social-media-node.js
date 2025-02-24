@@ -1,9 +1,17 @@
 const express = require("express")
 const path = require('path')
-
 const app = express()
+const { setHeaders } = require("./middlewares/headers")
 
 
+
+
+// Body Parser
+app.use(express.urlencoded({ limit: "50mb", extended: true }))
+app.use(express.json({ limit: "50mb" }))
+
+// Cors Policy
+app.use(setHeaders)
 
 // Static Folder
 app.use(express.static(path.join(__dirname, '..', 'public')))
@@ -27,6 +35,16 @@ app.get("/", (req, res) => {
     return res.render('index')
 })
 
+
+
+
+// 404 Error Handler
+
+app.use((req, res) => {
+
+    console.log("this is path is not found : ", req.path)
+    return res.status(404).json({ message: "Not Found 404!!" })
+})
 
 
 
