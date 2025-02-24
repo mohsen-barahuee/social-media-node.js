@@ -6,7 +6,7 @@ const app = express()
 
 
 // Static Folder
-
+app.use(express.static(path.join(__dirname, '..', 'public')))
 app.use("/css", express.static(path.join(__dirname, 'public/css')))
 app.use("/js", express.static(path.join(__dirname, 'public/js')))
 app.use("/fonts", express.static(path.join(__dirname, 'public/fonts')))
@@ -18,7 +18,7 @@ app.use("/images", express.static(path.join(__dirname, 'public/images')))
 
 // Template Engine
 app.set("view engine", 'ejs')
-app.set("view", path.join(__dirname, "views"))
+app.set("views", path.join(__dirname, "views"))
 
 
 
