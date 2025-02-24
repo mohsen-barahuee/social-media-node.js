@@ -2,7 +2,7 @@ const express = require("express")
 const path = require('path')
 const app = express()
 const { setHeaders } = require("./middlewares/headers")
-
+const { errorHandler } = require("./middlewares/errorHandler")
 
 
 
@@ -46,6 +46,10 @@ app.use((req, res) => {
     return res.status(404).json({ message: "Not Found 404!!" })
 })
 
+
+
+// !Needed Feature
+// app.use(errorHandler)
 
 
 module.exports = app

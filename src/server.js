@@ -22,7 +22,6 @@ async function connectToDB() {
     }
 }
 
-
 function startServer() {
 
     const port = process.env.PORT || 4002
