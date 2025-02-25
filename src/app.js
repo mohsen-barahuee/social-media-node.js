@@ -1,5 +1,7 @@
 const express = require("express")
 const path = require('path')
+const flash = require('express-flash')
+const session = require('express-session')
 const app = express()
 const { setHeaders } = require("./middlewares/headers")
 const { errorHandler } = require("./middlewares/errorHandler")
@@ -13,6 +15,14 @@ app.use(express.json({ limit: "50mb" }))
 
 // Cors Policy
 app.use(setHeaders)
+
+// Express-Flash
+app.use(session({
+    secret: "Secret key",
+    resave: false,
+    saveUninitialized: false,
+}))
+app.use(flash())
 
 // Static Folder
 app.use(express.static(path.join(__dirname, '..', 'public')))
