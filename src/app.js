@@ -6,12 +6,16 @@ const app = express()
 const { setHeaders } = require("./middlewares/headers")
 const { errorHandler } = require("./middlewares/errorHandler")
 const authRoutes = require("./modules/auth/auth.routes")
-
+const postRoutes = require('./modules/post/post.routes')
+const cookieParser = require('cookie-parser')
 
 
 // Body Parser
 app.use(express.urlencoded({ limit: "50mb", extended: true }))
 app.use(express.json({ limit: "50mb" }))
+
+// Cookie Parser
+app.use(cookieParser())
 
 // Cors Policy
 app.use(setHeaders)
@@ -47,6 +51,7 @@ app.get("/", (req, res) => {
 })
 
 app.use('/auth', authRoutes)
+app.use('/post', postRoutes)
 
 
 
