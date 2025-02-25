@@ -3,6 +3,7 @@ const path = require('path')
 const app = express()
 const { setHeaders } = require("./middlewares/headers")
 const { errorHandler } = require("./middlewares/errorHandler")
+const authRoutes = require("./modules/auth/auth.routes")
 
 
 
@@ -34,6 +35,8 @@ app.set("views", path.join(__dirname, "views"))
 app.get("/", (req, res) => {
     return res.render('index')
 })
+
+app.use('/auth', authRoutes)
 
 
 
