@@ -1,6 +1,7 @@
 const User = require('../models/user')
 const { Op, where } = require('sequelize')
 const nodemailer = require('nodemailer')
+const jwt = require('jsonwebtoken')
 
 // * Showing Ui in Template Enjine
 exports.signup = (req, res) => {
@@ -21,12 +22,18 @@ exports.signUpUser = async (req, res) => {
             password,
         })
 
-        res.redirect('/')
+        const token = jwt.sign({ id: user.id, email: user.email, userName: user.userName }, process.env.JWT_SECRET_KEY)
+
+        res.cookie("token", token, {
+            httpOnly: true,
+            secure: true,
+            maxAge: 1000 * 60 * 60 * 24 * 365,
+        })
+        res.status(201).redirect('/')
 
     } catch (error) {
         res.status(500).json("DB Error" + error)
     }
-
 
 
 }
@@ -53,7 +60,15 @@ exports.loginUser = async (req, res) => {
             return res.status(404).json({ message: "User not Founded !!" })
         }
 
-        return res.status(200).redirect('/')
+        const token = jwt.sign({ id: user.id, email: user.email, userName: user.userName }, process.env.JWT_SECRET_KEY)
+
+        res.cookie("token", token, {
+            httpOnly: true,
+            secure: true,
+            maxAge: 1000 * 60 * 60 * 24 * 365,
+        })
+
+        res.status(302).redirect('/')
 
 
 
@@ -90,9 +105,7 @@ exports.recoveryUser = async (req, res) => {
         })
         // Create a test account or replace with real credentials.
         const transporter = nodemailer.createTransport({
-            // host: "live.smtp.mailtrap.io",
-            // port: 587,
-            // secure: false, // true for 465, false for other ports
+          
             service: "gmail",
             auth: {
                 user: "mohsenbrh657@gmail.com",
