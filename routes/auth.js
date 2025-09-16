@@ -9,7 +9,10 @@ router.route('/signup')
     .post(authController.signUpUser)
 
 
-router.route('/login').get(authController.login)
+router.route('/login')
+    .get(authController.login)
+    .post(authController.loginUser)
+
 router.route('/recovery').get(authController.recovery)
 
 module.exports = router
