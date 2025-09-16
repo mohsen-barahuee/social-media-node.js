@@ -13,7 +13,10 @@ router.route('/login')
     .get(authController.login)
     .post(authController.loginUser)
 
-router.route('/recovery').get(authController.recovery)
+router.route('/recovery')
+    .get(authController.recovery)
+    .post(authController.recoveryUser)
+
 
 module.exports = router
 

@@ -15,7 +15,7 @@
 <body class="auth-page">
     <section id="auth-container">
 
-        <form id="auth-form">
+        <form id="auth-form" method="POST" action="recovery">
             <header>
                 <h2 class="text-3xl">
                     Account recovery
@@ -31,7 +31,7 @@
                         username or email
                     </label>
                     <div class="relative flex input-card items-center">
-                        <input id="register_username" type="text" class="auth-input"
+                        <input id="register_username" name="identifire" type="text" class="auth-input"
                             placeholder="Please enter the your username..">
                         <span class="absolute left-2 top-4 text-gray-300">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
