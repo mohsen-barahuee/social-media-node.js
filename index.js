@@ -7,7 +7,7 @@ require('dotenv').config({
 })
 const cookieParser = require("cookie-parser")
 const authRouter = require('./routes/auth')
-
+const postRouter = require('./routes/post')
 
 
 app.set("view engine", "ejs")
@@ -27,7 +27,7 @@ app.get('/', async (req, res) => {
 })
 
 app.use('/', authRouter)
-
+app.use('/', postRouter)
 
 app.listen(process.env.PORT, () => {
     console.log("Server is Running on PORT " + process.env.PORT);
