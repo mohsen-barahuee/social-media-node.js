@@ -8,34 +8,50 @@ exports.page = (req, res) => {
 }
 
 exports.uploadPost = async (req, res) => {
-    
+
+    try {
+        // GETTING DATA FROM REQUEST BODY
+        const { description, hashTags } = req.body
+
+        // CREATE DATA IN DATABASE
+        const post = await Post.create({
+            description,
+            image: req.file.filename,
+            userId: req.user.id
+        })
+
+        res.satuts(201).redirect('/')
+
+    } catch (error) {
+        // ERROR HANDLER
+        console.log("ERORR ===> ", error);
+        return res.satuts(500).redirect('/post-upload')
+    }
 
 
-    const post = await Post.create({
-        description: req.body.description,
-        image: req.file.filename,
-        hashTags: req.body.hashTags,
-        userId: req.user.id
-    })
 
-
-    res.json("post")
 }
 
 exports.getAllPosts = async (req, res) => {
-    const posts = await Post.findAll({
+    try {
+        const posts = await Post.findAll({
 
-        include: {
-            model: User,
-            attributes: ['fullName', 'userName']
-        },
-        attributes: { exclude: ['updatedAt', 'createdAt', 'userId'] },
+            include: {
+                model: User,
+                attributes: ['fullName', 'userName']
+            },
+            attributes: { exclude: ['updatedAt', 'createdAt', 'userId'] },
 
-        raw: true,
-        nest: true
-    })
-    
+            raw: true,
+            nest: true
+        })
 
-    res.json(posts)
+
+        res.status(200).json(posts)
+    } catch (error) {
+        console.log("ERORR ===>", error);
+
+        return res.status(500).json("Server ERORR!!!")
+    }
 
 }
