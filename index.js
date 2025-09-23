@@ -8,7 +8,7 @@ require('dotenv').config({
 const cookieParser = require("cookie-parser")
 const authRouter = require('./routes/auth')
 const postRouter = require('./routes/post')
-
+const authChecker = require('./middleware/auth')
 
 app.set("view engine", "ejs")
 app.set("views", path.join(__dirname, "views"))
@@ -22,7 +22,8 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json())
 
 
-app.get('/', async (req, res) => {
+app.get('/', authChecker, async (req, res) => {
+
     res.render('index')
 })
 
