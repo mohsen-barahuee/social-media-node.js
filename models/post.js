@@ -17,10 +17,7 @@ const Post = db.define("Post", {
         type: DataTypes.STRING,
         allowNull: false
     }
-    , hashTags: {
-        type: DataTypes.ARRAY(DataTypes.STRING),
-        allowNull: true,
-    }
+
 
 
 

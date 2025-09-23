@@ -7,19 +7,22 @@ exports.page = (req, res) => {
 }
 
 exports.uploadPost = async (req, res) => {
+    
+
     const user = req.headers.cookie.split("=")
     const verfiyedUser = jwt.verify(user[1], process.env.JWT_SECRET_KEY)
-    // console.log(verfiyedUser.id);
-
+   
+    
 
     const post = await Post.create({
         description: req.body.description,
         image: req.file.filename,
-        User: verfiyedUser.id
+        hashTags: req.body.hashTags,
+        userId: verfiyedUser.id
     })
 
 
-    res.json(post)
+    res.json("post")
 }
 
 exports.getAllPosts = async (req, res) => {
@@ -34,7 +37,7 @@ exports.getAllPosts = async (req, res) => {
         raw: true,
         nest: true
     })
-    console.log(posts);
+    
 
     res.json(posts)
 

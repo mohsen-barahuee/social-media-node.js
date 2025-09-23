@@ -150,7 +150,7 @@ const pushElements = (elements) => {
     hashtagsWrapper.insertAdjacentHTML(
       "beforeend",
       `
-            <a href="#" class="hashtag-link">
+            <a name="hashTags" href="#" class="hashtag-link">
                 #${element}
             </a>`
     );

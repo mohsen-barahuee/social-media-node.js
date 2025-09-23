@@ -59,7 +59,12 @@
 
     <!-- Main -->
     <main id="post-upload-wrapper">
-      <section id="post-upload-container">
+      <form
+        action="/post-upload"
+        method="post"
+        enctype="multipart/form-data"
+        id="post-upload-container"
+      >
         <!-- File Upload -->
         <div class="post-upload-box">
           <h3 class="file-upload-title">File upload</h3>
@@ -87,11 +92,7 @@
               Browse file
             </p>
 
-            <input
-              type="file"
-              id="file-upload-input"
-              accept="video/*, image/*"
-            />
+            <input name="image" type="file" id="file-upload-input" />
           </div>
         </div>
 
@@ -107,32 +108,14 @@
               <span class="requre-symbol">*</span>
             </label>
             <textarea
-              name="post-description"
+              name="description"
               id="post-description"
               placeholder="Add a description .."
               class="w-full mt-4"
             ></textarea>
           </div>
 
-          <!-- Hashtags -->
-          <div class="mt-4">
-            <label for="post-hashtags">
-              <span> Hashtags </span>
-              <span class="requre-symbol">*</span>
-            </label>
-            <input
-              type="text"
-              id="post-hashtags"
-              placeholder="javascript, edit, trend, explore, ne..."
-            />
-            <div
-              id="hashtags-wrap"
-              class="flex text-sm my-2 items-center gap-2"
-            ></div>
-            <span class="text-sm font-Poppins-Light"
-              >Split the hashtags with comma ( , )</span
-            >
-          </div>
+          
           <div class="alert error">
             <span> You need to verify your account </span>
             <div>
@@ -143,10 +126,12 @@
           </div>
           <!-- Upload Button -->
           <div class="mt-4 flex items-center justify-end">
-            <button id="upload-button" class="max-w-max">Upload post</button>
+            <button type="submit" id="upload-button" class="max-w-max">
+              Upload post
+            </button>
           </div>
         </div>
-      </section>
+      </form>
     </main>
 
     <section id="modal" class="modal-screen">
