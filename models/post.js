@@ -1,6 +1,6 @@
 const { DataTypes, Model } = require('sequelize')
 const db = require('../config/db')
-
+const User = require('./user')
 
 const Post = db.define("Post", {
     id: {
@@ -17,18 +17,17 @@ const Post = db.define("Post", {
         type: DataTypes.STRING,
         allowNull: false
     }
-    ,
-   
-    creator: {
-        type: DataTypes.INTEGER,
-        allowNull: false
+    , hashTags: {
+        type: DataTypes.ARRAY(DataTypes.STRING),
+        allowNull: true,
     }
+
+
 
 })
 
 
-Post.associations = (models) => {
-    Post.hasOne(db.define("User"))
-}
+User.hasMany(Post, { foreignKey: "userId" })
+Post.belongsTo(User, { foreignKey: "userId" })
 
 module.exports = Post

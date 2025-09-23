@@ -31,8 +31,6 @@ const User = db.define("User", {
     }
 })
 
-User.associations = (modles) => {
-    User.hasMany(db.define("Post"))
-}
+
 
 module.exports = User
