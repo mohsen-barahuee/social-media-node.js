@@ -163,3 +163,8 @@ exports.recovery = (req, res) => {
     res.render('pages/auth/recovery')
 }
 
+exports.profilePage = (req, res) => {
+
+    res.render('pages/profile/index')
+
+}
