@@ -1,5 +1,6 @@
 const User = require('../models/user')
-const { Op, where } = require('sequelize')
+const { Op } = require('sequelize')
+const bycrypt = require('bcrypt')
 const nodemailer = require('nodemailer')
 const jwt = require('jsonwebtoken')
 
@@ -14,9 +15,12 @@ exports.signUpUser = async (req, res) => {
         // GET DATA FROM REQUEST BODY
         const { fullName, userName, email, password } = req.body
 
+        //HASHING PASSWORD WITH BYCRYPTJS PACKAGE
+        const hashedPassword = await bycrypt.hash(password, 12)
+
         //CREATE DATA IN DATABASE
         const user = await User.create({
-            fullName, userName, email, password,
+            fullName, userName, email, password: hashedPassword,
         })
 
         //GENERATE TOKEN WITH JSONWEBTOKEN PACKAGE
@@ -45,6 +49,10 @@ exports.loginUser = async (req, res) => {
     try {
         //GET DATA FROM REQUEST BODY
         const { identifire, password } = req.body
+
+        // verify password
+        const verifyPassword = await bycrypt.hash(password, 12)
+
         //FIND ONE USER WITH identifire DATA
         const user = await User.findOne({
             raw: true,
@@ -54,7 +62,7 @@ exports.loginUser = async (req, res) => {
                     { userName: identifire }
                 ],
                 [Op.and]: [
-                    { password }
+                    { password: verifyPassword }
                 ]
             }
         })
