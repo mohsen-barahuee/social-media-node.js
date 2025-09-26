@@ -50,24 +50,21 @@ exports.loginUser = async (req, res) => {
         //GET DATA FROM REQUEST BODY
         const { identifire, password } = req.body
 
-        // verify password
-        const verifyPassword = await bycrypt.hash(password, 12)
-
         //FIND ONE USER WITH identifire DATA
         const user = await User.findOne({
             raw: true,
-            where: { //* IN MYSQL THIS CODE MEAN THIS ( WHERE email=idenifire OR username=idenifire AND password=password )
+            where: {
                 [Op.or]: [
                     { email: identifire },
                     { userName: identifire }
-                ],
-                [Op.and]: [
-                    { password: verifyPassword }
                 ]
             }
         })
+        // verify password
+        const verifyPassword = await bycrypt.compare(password, user.password)
+
         //REDIRECTING USER TO LOGIN IF ACCOUNT DONT EXIST
-        if (user === null) {
+        if (user === null || !verifyPassword) {
             return res.status(404).redirect('/login')
         }
 
@@ -115,9 +112,10 @@ exports.recoveryUser = async (req, res) => {
 
         //GENERATE RANDOM PASSWORD
         const newPassword = Math.floor(Math.random() * 1000000).toString().padStart(6, '0');
+        const hashedPassword = await bycrypt.hash(newPassword, 12)
 
         //UPDATING USER PASSWORD
-        const resetPassword = await User.update({ password: newPassword }, {
+        const resetPassword = await User.update({ password: hashedPassword }, {
             where: {
                 id: user.id
             }
