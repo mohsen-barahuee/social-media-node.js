@@ -16,16 +16,16 @@ exports.uploadPost = async (req, res) => {
         // CREATE DATA IN DATABASE
         const post = await Post.create({
             description,
-            image: req.file.filename,
+            image: `http://localhost:4000/uploads/${req.file.filename}`,
             userId: req.user.id
         })
 
-        res.satuts(201).redirect('/')
+        return res.stauts(201).redirect('/')
 
     } catch (error) {
         // ERROR HANDLER
         console.log("ERORR ===> ", error);
-        return res.satuts(500).redirect('/post-upload')
+        return res.stauts(500).redirect('/post-upload')
     }
 
 

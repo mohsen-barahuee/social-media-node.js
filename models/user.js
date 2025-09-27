@@ -16,6 +16,11 @@ const User = db.define("User", {
         type: DataTypes.STRING(150),
         allowNull: false
     },
+    image:{
+        type: DataTypes.STRING(255),
+        allowNull: true
+    }
+    ,
     email: {
         type: DataTypes.STRING,
         validate: {
