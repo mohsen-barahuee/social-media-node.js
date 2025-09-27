@@ -168,3 +168,8 @@ exports.profilePage = (req, res) => {
     res.render('pages/profile/index')
 
 }
+
+
+
+
+
