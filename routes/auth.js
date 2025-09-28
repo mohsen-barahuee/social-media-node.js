@@ -16,8 +16,7 @@ router.route('/login')
 router.route('/recovery')
     .get(authController.recovery)
     .post(authController.recoveryUser)
-router.route('/profile/:userName')
-    .get(authChecker,authController.profilePage)
+
 
 
 module.exports = router

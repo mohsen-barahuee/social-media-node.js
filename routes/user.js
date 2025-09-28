@@ -5,11 +5,17 @@ const authChecker = require('../middleware/auth')
 
 
 
+router.route('/my-account')
+    .get(authChecker, userController.myAccount)
+
+router.route('/user-page')
+    .get(authChecker, userController.userPage)
+
 router.route('/follow/:id')
     .post(authChecker, userController.followUser)
 
 router.route('/user-followers')
-    .get(authChecker,userController.userFollowers)
+    .get(authChecker, userController.userFollowers)
 
 
 module.exports = router

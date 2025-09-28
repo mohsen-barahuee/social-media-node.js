@@ -163,12 +163,6 @@ exports.recovery = (req, res) => {
     res.render('pages/auth/recovery')
 }
 
-exports.profilePage = (req, res) => {
-    console.log(req.params.userName);
-    
-    res.render('pages/profile/index')
-
-}
 
 
 

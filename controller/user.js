@@ -1,5 +1,19 @@
 const User = require('../models/user')
 
+exports.myAccount = async (req, res) => {
+    console.log(req.user);
+
+
+    res.render('pages/profile/index')
+}
+
+
+exports.userPage = async (req, res) => {
+    res.render('pages/profile/singleProfile/index')
+
+}
+
+
 exports.followUser = async (req, res) => {
 
     try {
@@ -12,37 +26,36 @@ exports.followUser = async (req, res) => {
 
         await user.addFollowing(followUser);
 
-        return res.status(200).json(followUser)
+        return res.status(200).json("User followed successfully")
 
     } catch (error) {
         console.log("ERORR===>", error);
         return res.status(500).json({ message: "Internal server error" })
 
     }
-
-
-
 }
-
 
 exports.userFollowers = async (req, res) => {
 
-    try { 
-        
+    try {
+
         const user = await User.findByPk(req.user.id, {
             include: [
                 { model: User, as: 'Followers', through: { attributes: [] } },
                 { model: User, as: 'Following', through: { attributes: [] } }
             ]
-        }); 
+        });
 
         if (!user) {
             return res.status(404).json({ message: "User not found" })
-        }   
-        return res.status(200).json(user)   
+        }
+        return res.status(200).json(user)
 
-    
+
     } catch (error) {
         console.log("ERORR===>", error);
         return res.status(500).json({ message: "Internal server error" })
-    }   }
+    }
+}
+
+

@@ -29,9 +29,7 @@ app.get('/', authCheck, async (req, res) => {
 })
 
 
-app.get('/user',async (req,res)=>{
-    res.render('pages/profile/singleProfile/index')
-})
+
 
 app.use('/', authRouter)
 app.use('/', postRouter)
