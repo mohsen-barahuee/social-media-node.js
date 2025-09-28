@@ -17,6 +17,7 @@ exports.createComment = async (req, res) => {
             userId: req.user.id,
             postId: 1
         })
+        
 
         return res.status(201).json(comment)
 
@@ -28,7 +29,6 @@ exports.createComment = async (req, res) => {
     }
 
 }
-
 
 exports.getAllComment = async (req, res) => {
 

@@ -33,9 +33,19 @@ const User = db.define("User", {
     password: {
         type: DataTypes.STRING(255),
         allowNull: false
-    }
+    },
+    bio:{
+        type: DataTypes.TEXT,
+        allowNull: true
+    },
+    
+    
+
 })
 
+
+User.belongsToMany(User, { as: 'Followers', through: 'UserFollowers', foreignKey: 'followingId' });
+User.belongsToMany(User, { as: 'Following', through: 'UserFollowers', foreignKey: 'followerId' });
 
 
 module.exports = User
