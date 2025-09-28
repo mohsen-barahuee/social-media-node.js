@@ -23,4 +23,5 @@ User.hasMany(Comment, { foreignKey: "userId" })
 Comment.belongsTo(User, { foreignKey: "userId" })
 
 
+
 module.exports = Comment

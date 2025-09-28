@@ -6,4 +6,7 @@ const authCheck = require('../middleware/auth');
 router.route('/create-comment')
     .post(authCheck, commentController.createComment);
 
+router.route('/comments')
+    .get(commentController.getAllComment)
+
 module.exports = router;
