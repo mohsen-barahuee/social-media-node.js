@@ -1,7 +1,9 @@
 const User = require('../models/user')
+const Post = require('../models/post')
 
 exports.myAccount = async (req, res) => {
-    console.log(req.user);
+
+
 
 
     res.render('pages/profile/index')
@@ -9,7 +11,27 @@ exports.myAccount = async (req, res) => {
 
 
 exports.userPage = async (req, res) => {
-    res.render('pages/profile/singleProfile/index')
+    const user = await User.findByPk(req.user.id, {
+        include: [
+            { model: User, as: 'Followers', through: { attributes: [] } },
+            { model: User, as: 'Following', through: { attributes: [] } },
+            { model: Post, as: 'Posts' , attributes: { exclude: ['userId', 'createdAt', 'updatedAt',] } }
+        ],
+      
+        attributes: { exclude: ['password', 'createdAt', 'updatedAt'] }
+    })
+
+    if (user.image === null) {
+        user.image = 'http://localhost:4000/uploads/default.jpg'
+    }
+    else {
+        user.image = `http://localhost:4000/uploads/${user.image}`
+    }
+
+   
+
+    // res.json(user )
+    res.render('pages/profile/singleProfile/index', { user })
 
 }
 

@@ -24,7 +24,7 @@ exports.signUpUser = async (req, res) => {
         })
 
         //GENERATE TOKEN WITH JSONWEBTOKEN PACKAGE
-        const token = jwt.sign({ id: user.id, email: user.email, userName: user.userName }, process.env.JWT_SECRET_KEY)
+        const token = jwt.sign({ id: user.id, email: user.email, image: 'http://localhost:4000/uploads/default.jpg', userName: user.userName }, process.env.JWT_SECRET_KEY)
 
         //CREATE COOKIE IN RESPONSE AND HEADERS FOR AUTHENTICATION
         res.cookie("token", token, {
