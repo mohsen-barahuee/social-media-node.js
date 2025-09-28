@@ -10,6 +10,7 @@ const authRouter = require('./routes/auth')
 const postRouter = require('./routes/post')
 const authCheck = require('./middleware/auth')
 const commentRouter = require('./routes/comment')
+const userRouter = require('./routes/user')
 
 app.set("view engine", "ejs")
 app.set("views", path.join(__dirname, "views"))
@@ -35,6 +36,7 @@ app.get('/user',async (req,res)=>{
 app.use('/', authRouter)
 app.use('/', postRouter)
 app.use('/', commentRouter)
+app.use('/',userRouter)
 
 app.listen(process.env.PORT, () => {
     console.log("Server is Running on PORT " + process.env.PORT);
