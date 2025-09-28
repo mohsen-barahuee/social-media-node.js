@@ -9,6 +9,7 @@ const cookieParser = require("cookie-parser")
 const authRouter = require('./routes/auth')
 const postRouter = require('./routes/post')
 const authCheck = require('./middleware/auth')
+const commentRouter = require('./routes/comment')
 
 app.set("view engine", "ejs")
 app.set("views", path.join(__dirname, "views"))
@@ -28,6 +29,7 @@ app.get('/', authCheck, async (req, res) => {
 
 app.use('/', authRouter)
 app.use('/', postRouter)
+app.use('/', commentRouter)
 
 app.listen(process.env.PORT, () => {
     console.log("Server is Running on PORT " + process.env.PORT);

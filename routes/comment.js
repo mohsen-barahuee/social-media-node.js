@@ -1,9 +1,9 @@
-const express = require('express');
-const router = express.Router();
-const commentController = require('../controllers/commentController');
+const express = require('express')
+const router = express.Router()
+const commentController = require('../controller/comment');
+const authCheck = require('../middleware/auth');
 
-
-
-
+router.route('/create-comment')
+    .post(authCheck, commentController.createComment);
 
 module.exports = router;

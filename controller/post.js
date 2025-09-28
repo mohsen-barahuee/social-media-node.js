@@ -11,7 +11,7 @@ exports.uploadPost = async (req, res) => {
 
     try {
         // GETTING DATA FROM REQUEST BODY
-        const { description, hashTags } = req.body
+        const { description } = req.body
 
         // CREATE DATA IN DATABASE
         const post = await Post.create({
@@ -20,15 +20,13 @@ exports.uploadPost = async (req, res) => {
             userId: req.user.id
         })
 
-        return res.stauts(201).redirect('/')
+         res.redirect('/')
 
     } catch (error) {
         // ERROR HANDLER
         console.log("ERORR ===> ", error);
         return res.stauts(500).redirect('/post-upload')
     }
-
-
 
 }
 
@@ -38,7 +36,7 @@ exports.getAllPosts = async (req, res) => {
 
             include: {
                 model: User,
-                attributes: ['fullName', 'userName']
+                attributes: ['fullName', 'userName','image']
             },
             attributes: { exclude: ['updatedAt', 'createdAt', 'userId'] },
 
@@ -47,7 +45,7 @@ exports.getAllPosts = async (req, res) => {
         })
 
 
-        res.status(200).json(posts)
+        return res.status(200).json(posts)
     } catch (error) {
         console.log("ERORR ===>", error);
 
