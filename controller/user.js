@@ -4,7 +4,6 @@ const Post = require('../models/post')
 exports.myAccount = async (req, res) => {
 
 
-
     res.render('pages/profile/index')
 }
 
