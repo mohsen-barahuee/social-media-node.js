@@ -14,8 +14,6 @@ router.route('/user-page')
 router.route('/follow/:id')
     .post(authChecker, userController.followUser)
 
-router.route('/user-followers')
-    .get(authChecker, userController.userFollowers)
 
 
 module.exports = router

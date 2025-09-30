@@ -30,12 +30,11 @@ else {
     user.image = `http://localhost:4000/uploads/${user.image}`
 }
 
-;
+//send user posts to the template engine
 const userPosts = user.Posts.map(post => {
     return post.dataValues
 })
 
-// res.json(user )
 res.render('pages/profile/singleProfile/index', { user , userPosts })
 
 }
@@ -44,13 +43,18 @@ res.render('pages/profile/singleProfile/index', { user , userPosts })
 exports.followUser = async (req, res) => {
 
     try {
-
+        // Find the user to be followed
         const user = await User.findByPk(req.user.id)
+        // Check if the user exists
+        if (!user) {
+            return res.status(404).json({ message: "User not found" })
+        }
+        // find the user to following
         const followUser = await User.findByPk(req.params.id)
         if (!followUser) {
             return res.status(404).json({ message: "User not found" })
         }
-
+        // Check if the user is trying to follow themselves
         await user.addFollowing(followUser);
 
         return res.status(200).json("User followed successfully")
@@ -61,26 +65,6 @@ exports.followUser = async (req, res) => {
     }
 }
 
-exports.userFollowers = async (req, res) => {
 
-    try {
-        const user = await User.findByPk(req.user.id, {
-            include: [
-                { model: User, as: 'Followers', through: { attributes: [] } },
-                { model: User, as: 'Following', through: { attributes: [] } }
-            ]
-        });
-
-        if (!user) {
-            return res.status(404).json({ message: "User not found" })
-        }
-        return res.status(200).json(user)
-
-
-    } catch (error) {
-        console.log("ERORR===>", error);
-        return res.status(500).json({ message: "Internal server error" })
-    }
-}
 
 
