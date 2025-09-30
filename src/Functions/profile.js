@@ -345,16 +345,7 @@ const tabsFunc = () => {
     </button>`
     );
 
-    if (currentTab === element.title) {
-      if (element.items.length && element.title === "Posts") {
-        feedsContainer.className = "";
-        element.items.forEach((item) => {
-          // نمایش محتوای هر آیتم
-          
-        });
-      }
-      
-    }
+  
   });
 
 };
