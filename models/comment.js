@@ -1,7 +1,7 @@
 const { DataTypes } = require('sequelize')
 const db = require('../config/db')
 const User = require('./user')
-
+const Post = require('./post') 
 
 // COMMENT MODEL
 const Comment = db.define("Comment", {
@@ -21,7 +21,8 @@ const Comment = db.define("Comment", {
 
 User.hasMany(Comment, { foreignKey: "userId" })
 Comment.belongsTo(User, { foreignKey: "userId" })
-
+Post.hasMany(Comment, { foreignKey: "postId" })
+Comment.belongsTo(Post, { foreignKey: "postId" })
 
 
 module.exports = Comment
