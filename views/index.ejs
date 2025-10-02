@@ -141,7 +141,27 @@
           </article>
         </div>
 
-        
+        <!-- Post Create -->
+        <div>
+          <form action="/post-upload" method="POST" id="tweet-card" class="shadow flex ic">
+            <div class="h-full flex-center absolute left-2">
+              <span class="w-8 h-8 rounded-full overflow-hidden">
+                <img
+                  src="/public/images/profile-8.jpg"
+                  class="object-cover"
+                  alt=""
+                />
+              </span>
+            </div>
+            <input
+              type="text"
+              name="description"
+              class="tweet-input"
+              placeholder="What's on your mind, Peyman?"
+            />
+            <button type="submit" id="tweet-button">Post</button>
+          </form>
+        </div>
 
         <!-- Feeds / Posts -->
         <section id="feeds">
