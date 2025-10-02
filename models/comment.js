@@ -21,7 +21,7 @@ const Comment = db.define("Comment", {
 
 User.hasMany(Comment, { foreignKey: "userId" })
 Comment.belongsTo(User, { foreignKey: "userId" })
-
+Post.hasMany(Comment,{foreignKey:"postId"})
 
 
 
