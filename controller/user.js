@@ -3,13 +3,10 @@ const Post = require('../models/post')
 
 exports.myAccount = async (req, res) => {
 
-
     res.render('pages/profile/index')
 }
 
-
 exports.userPage = async (req, res) => {
-
 
 
     // Find the User
@@ -20,8 +17,7 @@ exports.userPage = async (req, res) => {
             { model: User, as: 'Following', through: { attributes: [] } },
             { model: Post, as: 'Posts', attributes: { exclude: ['userId', 'createdAt', 'updatedAt',] } }
         ],
-
-
+        //dont show this attributes in api
         attributes: { exclude: ['password', 'createdAt', 'updatedAt'] }
     })
 
@@ -41,7 +37,6 @@ exports.userPage = async (req, res) => {
     res.render('pages/profile/singleProfile/index', { user, userPosts })
 
 }
-
 
 exports.followUser = async (req, res) => {
 
@@ -63,11 +58,10 @@ exports.followUser = async (req, res) => {
         return res.status(200).json("User followed successfully")
 
     } catch (error) {
+        //error handling
         console.log("ERORR===>", error);
         return res.status(500).json({ message: "Internal server error" })
     }
 }
-
-
 
 

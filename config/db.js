@@ -1,5 +1,6 @@
 const { Sequelize } = require('sequelize');
 
+// authentication the database
 const sequelize = new Sequelize({
     host: "127.0.0.1",
     username: "root",
@@ -9,8 +10,10 @@ const sequelize = new Sequelize({
     logging: false
 })
 
+//sync the database
 sequelize.sync({ alter: true })
 
+//connect the database function
 const connectToDb = async () => {
     try {
         await sequelize.authenticate()

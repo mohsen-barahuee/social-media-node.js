@@ -30,29 +30,36 @@ app.use(express.json())
 
 app.get('/', authCheck, async (req, res) => {
 
-    const posts = await Posts.findAll({
-        order: [['createdAt', 'DESC']],
+    try {
+        // Get all posts from database
+        const posts = await Posts.findAll({
+            //show latest post first
+            order: [['createdAt', 'DESC']],
 
-        include: [
-            { model: UserModel, attributes: { exclude: ['password', 'createdAt', 'updatedAt'] } },
-            { model: CommentModel, attributes: ['id', 'body'], include: [{ model: UserModel, attributes: ['userName', 'image'] }] }
-        ],
-    })
+            include: [
+                { model: UserModel, attributes: { exclude: ['password', 'createdAt', 'updatedAt'] } },
+                { model: CommentModel, attributes: ['id', 'body'], include: [{ model: UserModel, attributes: ['userName', 'image'] }] }
+            ],
+        })
 
+        //logic to show default image if user has no image
+        posts.map((userImage) => {
+            if (userImage.User.image == null || userImage.User.image == undefined) {
+                return userImage.User.image = 'http://localhost:4000/uploads/default.jpg'
 
-    posts.map((userImage) => {
-        if (userImage.User.image == null || userImage.User.image == undefined) {
-            return userImage.User.image = 'http://localhost:4000/uploads/default.jpg'
+            }
+            else {
+                return userImage.User.image = `http://localhost:4000/uploads/${userImage.User.image.image}`
+            }
+        })
 
-        }
-        else {
-            return userImage.User.image = `http://localhost:4000/uploads/${userImage.User.image.image}`
-        }
-    })
+        res.render('index', { posts })
+        
+    } catch (error) {
+        console.log("ERORR===>", error);
+        return res.status(500).json("Server Error!!!")
 
-   
-
-    res.render('index', { posts })
+    }
 })
 
 

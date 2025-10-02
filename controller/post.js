@@ -28,9 +28,7 @@ exports.uploadPost = async (req, res) => {
         console.log("ERORR ===> ", error);
         return res.stauts(500).redirect('/post-upload')
     }
-
 }
-
 exports.getAllPosts = async (req, res) => {
     try {
         const posts = await Post.findAll({
@@ -50,8 +48,8 @@ exports.getAllPosts = async (req, res) => {
             
         })
 
-
         return res.status(200).json(posts)
+
     } catch (error) {
         console.log("ERORR ===>", error);
 
