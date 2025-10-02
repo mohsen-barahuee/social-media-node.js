@@ -77,9 +77,12 @@
                 >
                   <span> Manage </span>
                 </a>
-                <button class="unfollow-button font-Poppins-Bold">
-                  Unfollow
-                </button>
+                <a
+                  href="/follow/<%= user.id %>"
+                  class="unfollow-button font-Poppins-Bold"
+                >
+                  Follow
+                </a>
               </div>
             </div>
 
@@ -101,8 +104,8 @@
 
           <!-- Feeds -->
           <main id="feeds-container">
-          <% userPosts.forEach(item => { %>
-              <article class="profile-feed-card">
+            <% userPosts.forEach(item => { %>
+            <article class="profile-feed-card">
               <div>
                 <header>
                   <img
@@ -175,15 +178,13 @@
                     </div>
                     <div class="text-sm my-2">
                       <span> Like </span>
-                      
+
                       <span>
-                        <strong> 2,923  </strong>
+                        <strong> 2,923 </strong>
                       </span>
                     </div>
                     <div>
-                      <p class="text-gray-700">
-                        <%= item.description %>
-                      </p>
+                      <p class="text-gray-700"><%= item.description %></p>
                     </div>
                     <div class="mt-1">
                       <button class="text-xs max-w-max text-gray-500">
@@ -195,7 +196,6 @@
               </div>
             </article>
             <% }) %>
-            
           </main>
 
           <!-- Footer -->

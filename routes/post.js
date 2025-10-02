@@ -12,6 +12,4 @@ router.route('/post-upload')
 router.route('/posts').get(postController.getAllPosts)
 
 
-
-
 module.exports = router

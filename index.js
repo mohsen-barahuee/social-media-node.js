@@ -31,10 +31,11 @@ app.use(express.json())
 app.get('/', authCheck, async (req, res) => {
 
     const posts = await Posts.findAll({
+        order: [['createdAt', 'DESC']],
 
         include: [
             { model: UserModel, attributes: { exclude: ['password', 'createdAt', 'updatedAt'] } },
-            { model: CommentModel, attributes: ['id', 'body'], include: [{ model: UserModel, attributes: ['userName','image'] }] }
+            { model: CommentModel, attributes: ['id', 'body'], include: [{ model: UserModel, attributes: ['userName', 'image'] }] }
         ],
     })
 
@@ -42,7 +43,7 @@ app.get('/', authCheck, async (req, res) => {
     posts.map((userImage) => {
         if (userImage.User.image == null || userImage.User.image == undefined) {
             return userImage.User.image = 'http://localhost:4000/uploads/default.jpg'
-        
+
         }
         else {
             return userImage.User.image = `http://localhost:4000/uploads/${userImage.User.image.image}`

@@ -9,33 +9,36 @@ exports.myAccount = async (req, res) => {
 
 
 exports.userPage = async (req, res) => {
+
+
+
     // Find the User
-    const user = await User.findByPk(req.user.id, {
+    const user = await User.findByPk(req.query.user, {
         include: [
             //show all models we want to show in api
             { model: User, as: 'Followers', through: { attributes: [] } },
             { model: User, as: 'Following', through: { attributes: [] } },
-            { model: Post, as: 'Posts' ,attributes: { exclude: ['userId', 'createdAt', 'updatedAt',] } }
+            { model: Post, as: 'Posts', attributes: { exclude: ['userId', 'createdAt', 'updatedAt',] } }
         ],
 
 
         attributes: { exclude: ['password', 'createdAt', 'updatedAt'] }
-})
+    })
 
-//we make logic to show default image if user has no image
-if (user.image === null) {
-    user.image = 'http://localhost:4000/uploads/default.jpg'
-}
-else {
-    user.image = `http://localhost:4000/uploads/${user.image}`
-}
+    //we make logic to show default image if user has no image
+    if (user.image === null) {
+        user.image = 'http://localhost:4000/uploads/default.jpg'
+    }
+    else {
+        user.image = `http://localhost:4000/uploads/${user.image}`
+    }
 
-//send user posts to the template engine
-const userPosts = user.Posts.map(post => {
-    return post.dataValues
-})
+    //send user posts to the template engine
+    const userPosts = user.Posts.map(post => {
+        return post.dataValues
+    })
 
-res.render('pages/profile/singleProfile/index', { user , userPosts })
+    res.render('pages/profile/singleProfile/index', { user, userPosts })
 
 }
 

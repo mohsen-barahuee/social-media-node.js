@@ -141,26 +141,7 @@
           </article>
         </div>
 
-        <!-- Post Create -->
-        <div>
-          <div id="tweet-card" class="shadow flex ic">
-            <div class="h-full flex-center absolute left-2">
-              <span class="w-8 h-8 rounded-full overflow-hidden">
-                <img
-                  src="/public/images/profile-8.jpg"
-                  class="object-cover"
-                  alt=""
-                />
-              </span>
-            </div>
-            <input
-              type="text"
-              class="tweet-input"
-              placeholder="What's on your mind, Peyman?"
-            />
-            <button id="tweet-button">Post</button>
-          </div>
-        </div>
+        
 
         <!-- Feeds / Posts -->
         <section id="feeds">
@@ -169,7 +150,7 @@
             <!-- Feed header -->
             <header>
               <a
-                href="/src/Pages/Profiles/Hosna/index.html"
+                href="/view-page?user=<%= post.User.id %>"
                 class="flex items-center gap-3"
               >
                 <div>

@@ -15,10 +15,9 @@ exports.createComment = async (req, res) => {
         const comment = await Comment.create({
             body,
             userId: req.user.id,
-            postId: 1
+            postId: 2
         })
         
-
         return res.status(201).json(comment)
 
     } catch (error) {
