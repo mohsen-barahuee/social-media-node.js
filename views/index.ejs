@@ -183,7 +183,6 @@
                   <p class="font-Poppins-Medium text-sm twitter-name">
                     <%- post.User.userName %>
                   </p>
-                 
                 </div>
               </a>
             </header>
@@ -306,8 +305,6 @@
 
               <!-- Likes count -->
               <div class="mt-1 flex items-center relative">
-                
-
                 <div class="text-sm">
                   <span> Liked by </span>
                   <span>
@@ -325,16 +322,29 @@
                 <span>
                   <strong> <%= post.User.userName %> </strong>
                 </span>
-                <p class="text-gray-700">
-                 <%= post.description %>
-                </p>
+                <p class="text-gray-700"><%= post.description %></p>
               </div>
 
               <!-- View all comments -->
               <div>
                 <button class="text-xs max-w-max text-gray-500">
-                  View all 294 comments ..
+                  <%= post.Comments.length %> comments ..
                 </button>
+                <% post.Comments.forEach(comment => { %>
+                <div class="mt-1 flex items-center text-sm gap-1">
+                  <img
+                    src="<%= comment.User.image ? comment.User.image : 'http://localhost:4000/uploads/default.jpg' %>"
+                    class="w-6"
+                    alt=""
+                  />
+                  <span>
+                    <strong class="text-xs">
+                      <%= comment.User.userName %>
+                    </strong>
+                  </span>
+                  <span class="text-gray-700"> <%= comment.body %></span>
+                </div>
+                <% }) %>
               </div>
             </footer>
           </article>

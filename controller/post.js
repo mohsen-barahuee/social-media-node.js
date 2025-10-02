@@ -1,5 +1,6 @@
 const Post = require('../models/post')
 const User = require('../models/user')
+const Comment = require('../models/comment')
 const jwt = require('jsonwebtoken')
 
 
@@ -20,7 +21,7 @@ exports.uploadPost = async (req, res) => {
             userId: req.user.id
         })
 
-         res.redirect('/')
+        res.redirect('/')
 
     } catch (error) {
         // ERROR HANDLER
@@ -34,14 +35,19 @@ exports.getAllPosts = async (req, res) => {
     try {
         const posts = await Post.findAll({
 
-            include: {
+            include: [{
                 model: User,
-                attributes: ['fullName', 'userName','image']
+                attributes: ['fullName', 'userName', 'image']
             },
+            {
+                model: Comment,
+                attributes: ['id', 'body'],
+            }
+
+            ],
             attributes: { exclude: ['updatedAt', 'createdAt', 'userId'] },
 
-            raw: true,
-            nest: true
+            
         })
 
 
