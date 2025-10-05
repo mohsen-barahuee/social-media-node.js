@@ -40,8 +40,6 @@ exports.signUpUser = async (req, res) => {
         console.log("ERROR ===>", error);
         return res.status(500).json("Server ERROR")
     }
-
-
 }
 
 exports.loginUser = async (req, res) => {
@@ -70,7 +68,6 @@ exports.loginUser = async (req, res) => {
 
         //GENERATE3 TOKEN IF USER EXITS
         const token = jwt.sign({ id: user.id, email: user.email, userName: user.userName }, process.env.JWT_SECRET_KEY)
-
         //MAKE COOKIE FOR USER
         res.cookie("token", token, {
             httpOnly: true,
@@ -162,6 +159,5 @@ exports.recovery = (req, res) => {
     //PAGE UI
     res.render('pages/auth/recovery')
 }
-
 
 

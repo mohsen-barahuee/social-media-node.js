@@ -1,13 +1,61 @@
 const User = require('../models/user')
 const Post = require('../models/post')
+const bycrypt = require('bcrypt')
+
 
 exports.myAccount = async (req, res) => {
 
-    res.render('pages/profile/index')
+    try {
+
+        //Finding the User
+        const user = await User.findByPk(req.user.id, {
+            raw: true,
+            attributes: { exclude: ['createdAt', 'updatedAt'] }
+        })
+        //we make logic to show default image if user has no image
+        if (user.image === null) {
+            user.image = 'http://localhost:4000/uploads/default.jpg'
+        }
+        else {
+            user.image = `http://localhost:4000/uploads/${user.image}`
+        }
+
+        res.render('pages/profile/index', { user })
+
+    } catch (error) {
+        console.log("ERORR==>", error);
+        return res.status(500).json({ message: "Server ERROR!!!" })
+
+    }
 }
 
-exports.userPage = async (req, res) => {
+exports.updateProfile = async (req, res) => {
+    try {
+        // filtering the data , return the value only has value
+        const dataBody = Object.fromEntries(
+            Object.entries(req.body).filter(([key, value]) => value !== '' && value !== null && value !== undefined)
+        )
 
+        if (dataBody?.password) {
+            dataBody.password = await bycrypt.hash(dataBody.password, 12)
+        }
+
+        const updateUser = await User.update(dataBody, {
+            where: { id: req.user.id }
+        })
+
+        res.status(200).redirect('/my-account')
+
+    } catch (error) {
+        console.log("ERORR==>", error);
+        return res.status(500).json({ message: "Server ERROR!!!" })
+
+    }
+}
+
+
+
+exports.userPage = async (req, res) => {
 
     // Find the User
     const user = await User.findByPk(req.query.user, {
@@ -63,5 +111,3 @@ exports.followUser = async (req, res) => {
         return res.status(500).json({ message: "Internal server error" })
     }
 }
-
-
