@@ -48,9 +48,7 @@ app.get('/', authCheck, async (req, res) => {
                 return userImage.User.image = 'http://localhost:4000/uploads/default.jpg'
 
             }
-            else {
-                return userImage.User.image = `http://localhost:4000/uploads/${userImage.User.image.image}`
-            }
+            
         })
 
         res.render('index', { posts })

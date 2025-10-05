@@ -1,7 +1,10 @@
 const User = require('../models/user')
 const Post = require('../models/post')
 const bycrypt = require('bcrypt')
-
+const jwt = require('jsonwebtoken')
+const path = require('path')
+const fs = require('fs')
+const { log } = require('console')
 
 exports.myAccount = async (req, res) => {
 
@@ -12,13 +15,13 @@ exports.myAccount = async (req, res) => {
             raw: true,
             attributes: { exclude: ['createdAt', 'updatedAt'] }
         })
+
+
         //we make logic to show default image if user has no image
         if (user.image === null) {
             user.image = 'http://localhost:4000/uploads/default.jpg'
         }
-        else {
-            user.image = `http://localhost:4000/uploads/${user.image}`
-        }
+
 
         res.render('pages/profile/index', { user })
 
@@ -30,7 +33,9 @@ exports.myAccount = async (req, res) => {
 }
 
 exports.updateProfile = async (req, res) => {
+
     try {
+
         // filtering the data , return the value only has value
         const dataBody = Object.fromEntries(
             Object.entries(req.body).filter(([key, value]) => value !== '' && value !== null && value !== undefined)
@@ -40,9 +45,33 @@ exports.updateProfile = async (req, res) => {
             dataBody.password = await bycrypt.hash(dataBody.password, 12)
         }
 
-        const updateUser = await User.update(dataBody, {
+        if (req.file?.filename) {
+            //Deleting the previous profile image from uploads folder
+             const filePath = path.join(__dirname, `../uploads/${req.user.image?.split('/').pop()}`)
+            const fileExists = fs.existsSync(filePath)
+
+            if(fileExists){
+                fs.unlinkSync(filePath)
+            }
+
+            dataBody.image = `http://localhost:4000/uploads/${req.file.filename}`
+        }
+
+        await User.update(dataBody, {
             where: { id: req.user.id }
         })
+
+        const user = await User.findByPk(req.user.id, {
+            raw: true,
+            attributes: { exclude: ['password', 'createdAt', 'updatedAt'] }
+        })
+        const token = jwt.sign({ id: user.id, userName: user.userName, fullName: user.fullName, email: user.email, image: user.image }, process.env.JWT_SECRET_KEY)
+
+        res.cookie('token', token, {
+            httpOnly: true,
+            maxAge: 24 * 60 * 60 * 1000 * 365 //1 day
+        })
+
 
         res.status(200).redirect('/my-account')
 
@@ -52,7 +81,6 @@ exports.updateProfile = async (req, res) => {
 
     }
 }
-
 
 
 exports.userPage = async (req, res) => {
@@ -73,9 +101,7 @@ exports.userPage = async (req, res) => {
     if (user.image === null) {
         user.image = 'http://localhost:4000/uploads/default.jpg'
     }
-    else {
-        user.image = `http://localhost:4000/uploads/${user.image}`
-    }
+
 
     //send user posts to the template engine
     const userPosts = user.Posts.map(post => {

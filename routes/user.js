@@ -1,13 +1,15 @@
 const express = require('express')
 const router = express.Router()
 const userController = require('../controller/user')
+const upload = require('../middleware/upload')
 const authChecker = require('../middleware/auth')
+
 
 
 
 router.route('/my-account')
     .get(authChecker, userController.myAccount)
-    .post(authChecker, userController.updateProfile)
+    .post(authChecker, upload.single("image"), userController.updateProfile)
 
 router.route('/view-page')
     .get(authChecker, userController.userPage)
