@@ -4,7 +4,7 @@ const bycrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const path = require('path')
 const fs = require('fs')
-const { log } = require('console')
+
 
 exports.myAccount = async (req, res) => {
 
@@ -15,13 +15,10 @@ exports.myAccount = async (req, res) => {
             raw: true,
             attributes: { exclude: ['createdAt', 'updatedAt'] }
         })
-
-
         //we make logic to show default image if user has no image
         if (user.image === null) {
             user.image = 'http://localhost:4000/uploads/default.jpg'
         }
-
 
         res.render('pages/profile/index', { user })
 
@@ -69,19 +66,16 @@ exports.updateProfile = async (req, res) => {
 
         res.cookie('token', token, {
             httpOnly: true,
-            maxAge: 24 * 60 * 60 * 1000 * 365 //1 day
+            maxAge: 24 * 60 * 60 * 1000 * 365 //1 year
         })
-
 
         res.status(200).redirect('/my-account')
 
     } catch (error) {
         console.log("ERORR==>", error);
         return res.status(500).json({ message: "Server ERROR!!!" })
-
     }
 }
-
 
 exports.userPage = async (req, res) => {
 
@@ -109,7 +103,6 @@ exports.userPage = async (req, res) => {
     })
 
     res.render('pages/profile/singleProfile/index', { user, userPosts })
-
 }
 
 exports.followUser = async (req, res) => {
